@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import Banner from '@/components/banner/Banner';
+import Navbar from '@/components/navbar/Navbar';
 
 export default function Home() {
 	return (
@@ -17,7 +18,7 @@ export default function Home() {
 				/>
 			</Head>
 			<main>
-				<h2>Netflix clone</h2>
+				<Navbar username="Davis Ochieng" />
 				<Banner
 					title="Margin"
 					subTitle="Business"
