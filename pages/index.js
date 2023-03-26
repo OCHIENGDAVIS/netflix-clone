@@ -2,8 +2,14 @@ import Head from 'next/head';
 
 import Banner from '@/components/banner/Banner';
 import Navbar from '@/components/navbar/Navbar';
+import Card from '@/components/card/Card';
+import SectionCards from '@/components/section-cards/SectionCards';
 
-export default function Home() {
+import { getVideos } from '@/lib/vodeos';
+
+import styles from '@/styles/Home.module.css';
+
+export default function Home({ videos }) {
 	return (
 		<>
 			<Head>
@@ -24,7 +30,19 @@ export default function Home() {
 					subTitle="Business"
 					imgUrl="/static/clifford.webp"
 				/>
+				<div className={styles.sectionWrapper}>
+					<SectionCards title="Disney" videos={videos} />
+				</div>
 			</main>
 		</>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const videos = await getVideos();
+	return {
+		props: {
+			videos,
+		},
+	};
 }
