@@ -6,20 +6,27 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic-client';
 
-import classes from './Login.module.css';
+import classes from './Register.module.css';
 
-const LoginPage = () => {
+const RegisterPage = () => {
 	const router = useRouter();
 	const [emailError, setEmailError] = useState(false);
 	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [passwordError, setPasswordError] = useState(false);
 
 	const handleClick = async () => {
 		if (!email || !email.includes('@')) {
 			setEmailError(true);
 			return;
 		}
-		// sign in the user
 		setEmailError(false);
+		if (!password || !password.length >= 6) {
+			setPasswordError(true);
+			return;
+		}
+		setPasswordError(false);
+		// Register the user
 		try {
 			if (magic) {
 				magic.auth.loginWithMagicLink({ email });
@@ -34,9 +41,13 @@ const LoginPage = () => {
 			console.log(error);
 		}
 	};
-	const handleChange = (e) => {
+	const handleEmailChange = (e) => {
 		setEmailError(false);
 		setEmail(e.target.value);
+	};
+	const handlePasswordChange = (e) => {
+		setEmailError(false);
+		setPassword(e.target.value);
 	};
 	return (
 		<div className={classes.container}>
@@ -59,25 +70,41 @@ const LoginPage = () => {
 			</header>
 			<main className={classes.main}>
 				<div className={classes.mainWrapper}>
-					<h1 className={classes.signinHeader}>Sign In </h1>
-					<input
-						type="email"
-						placeholder="Email address "
-						className={classes.emailInput}
-						value={email}
-						onChange={handleChange}
-					/>
-					{emailError && (
-						<p className={classes.userMsg}>
-							Please enter a valid email
-						</p>
-					)}
+					<h1 className={classes.signinHeader}>Sign Up </h1>
+					<div>
+						<input
+							type="email"
+							placeholder="Email address "
+							className={classes.emailInput}
+							value={email}
+							onChange={handleEmailChange}
+						/>
+						{emailError && (
+							<p className={classes.userMsg}>
+								Please enter a valid email
+							</p>
+						)}
+					</div>
+					<div className={classes.inputContainer}>
+						<input
+							type="password"
+							placeholder="Your Password "
+							className={classes.emailInput}
+							value={password}
+							onChange={handlePasswordChange}
+						/>
+						{passwordError && (
+							<p className={classes.userMsg}>
+								Please enter a valid password
+							</p>
+						)}
+					</div>
 					<button onClick={handleClick} className={classes.loginBtn}>
-						Sign In
+						Reggister
 					</button>
 				</div>
 			</main>
 		</div>
 	);
 };
-export default LoginPage;
+export default RegisterPage;
