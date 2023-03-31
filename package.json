@@ -19,6 +19,7 @@
 		"magic-sdk": "^8.1.1",
 		"mongoose": "^7.0.3",
 		"next": "13.2.4",
+		"next-auth": "^4.20.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0"
 	}

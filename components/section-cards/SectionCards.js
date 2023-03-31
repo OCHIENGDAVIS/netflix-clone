@@ -11,6 +11,7 @@ const SectionCards = (props) => {
 				{videos &&
 					videos.map(({ id, title, imgUrl }) => (
 						<Card
+							key={id}
 							id={id}
 							title={title}
 							size="large"

@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import mongoose from 'mongoose';
+import { signIn } from 'next-auth/react';
 
 import { dbConnect } from '@/lib/db';
 
@@ -23,6 +24,11 @@ export default async function register(req, res) {
 				const passwordHash = await user.hashPassword(password);
 				user.password = passwordHash;
 				await user.save();
+				await signIn('credentials', {
+					redirect: false,
+					email: user.email,
+					password: password,
+				});
 				return res.status(StatusCodes.CREATED).json({
 					type: 'success',
 					user: { id: user._id, email: user.email },

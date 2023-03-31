@@ -5,38 +5,66 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic-client';
+import { signIn } from 'next-auth/react';
+import Navbar from '@/components/navbar/Navbar';
 
 import classes from './Login.module.css';
 
 const LoginPage = () => {
 	const router = useRouter();
-	const [emailError, setEmailError] = useState(false);
 	const [email, setEmail] = useState('');
+	const [emailError, setEmailError] = useState(false);
+	const [password, setPassword] = useState('');
+	const [passwordError, setPasswordError] = useState(false);
+	const [signInError, setSignInError] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+
+	async function loginUser({ email, password }) {
+		// this will always resolves even is there is backend error
+		const res = await signIn('credentials', {
+			redirect: false, // ensure you are not redirected when authorization fails
+			email, //will be received i the authorize function
+			password, // will also be received in the authorize function
+		});
+		return res;
+	}
 
 	const handleClick = async () => {
 		if (!email || !email.includes('@')) {
 			setEmailError(true);
 			return;
 		}
-		// sign in the user
+		if (!password || !password.length >= 6) {
+			setPasswordError(true);
+			return;
+		}
 		setEmailError(false);
+		// sign in the user
 		try {
-			if (magic) {
-				magic.auth.loginWithMagicLink({ email });
-
-				const didToken = await magic.auth.loginWithMagicLink({
-					email,
-				});
-				console.log({ didToken });
-				router.push('/');
+			setIsLoading(true);
+			const res = await loginUser({ email, password });
+			const { error, status, ok } = res;
+			if (error && status !== 200 && !ok) {
+				setIsLoading(false);
+				console.log(error);
+				setSignInError('Error!, Could not login! try again');
+				return;
 			}
+			// Set some auth state with context or redux  and use it to change what we see
+			router.push('/profile');
 		} catch (error) {
 			console.log(error);
 		}
 	};
-	const handleChange = (e) => {
+	const handleEmailChange = (e) => {
 		setEmailError(false);
+		setSignInError('');
 		setEmail(e.target.value);
+	};
+	const handlePasswordChange = (e) => {
+		setSignInError('');
+		setPasswordError(false);
+		setPassword(e.target.value);
 	};
 	return (
 		<div className={classes.container}>
@@ -44,36 +72,45 @@ const LoginPage = () => {
 				<title>Netflix | Sign In </title>
 			</Head>
 			<header className={classes.header}>
-				<div className={classes.headerWrapper}>
-					<Link className={classes.logoLink} href="/">
-						<div className={classes.logoWrapper}>
-							<Image
-								src="/static/netflix_logo.svg"
-								width={132}
-								height={34}
-								alt="netflix logo"
-							/>
-						</div>
-					</Link>
-				</div>
+				<Navbar />
 			</header>
 			<main className={classes.main}>
 				<div className={classes.mainWrapper}>
-					<h1 className={classes.signinHeader}>Sign In </h1>
-					<input
-						type="email"
-						placeholder="Email address "
-						className={classes.emailInput}
-						value={email}
-						onChange={handleChange}
-					/>
-					{emailError && (
-						<p className={classes.userMsg}>
-							Please enter a valid email
-						</p>
+					{signInError && (
+						<div className={classes.error}>{signInError}</div>
 					)}
+
+					<h1 className={classes.signinHeader}>Sign In </h1>
+					<div>
+						<input
+							type="email"
+							placeholder="Email address "
+							className={classes.emailInput}
+							value={email}
+							onChange={handleEmailChange}
+						/>
+						{emailError && (
+							<p className={classes.userMsg}>
+								Please enter a valid email
+							</p>
+						)}
+					</div>
+					<div className={classes.passwordContainer}>
+						<input
+							type="password"
+							placeholder="Your password"
+							className={classes.emailInput}
+							value={password}
+							onChange={handlePasswordChange}
+						/>
+						{passwordError && (
+							<p className={classes.userMsg}>
+								Please enter a valid password
+							</p>
+						)}
+					</div>
 					<button onClick={handleClick} className={classes.loginBtn}>
-						Sign In
+						{isLoading ? 'loading...' : 'Sign In'}
 					</button>
 				</div>
 			</main>

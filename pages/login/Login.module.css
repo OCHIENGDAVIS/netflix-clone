@@ -97,7 +97,9 @@
 	margin-bottom: 0.25rem /* 4px */;
 	color: var(--white20);
 }
-
+.passwordContainer {
+	margin-top: 1rem;
+}
 .loginBtn {
 	background-color: var(--red10);
 
@@ -114,6 +116,19 @@
 
 	border-radius: 0.375rem /* 6px */;
 	margin-top: 1.5rem /* 24px */;
+}
+
+.error {
+	position: absolute;
+	top: 0;
+	left: 10rem;
+	z-index: 999;
+	color: red;
+	background-color: #fff;
+	width: 70%;
+	text-align: center;
+	padding: 0.5rem 0;
+	border-radius: 8px;
 }
 
 @media (min-width: 768px) {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,10 +7,15 @@ import Image from 'next/image';
 import classes from './Navbar.module.css';
 
 const Navbar = (props) => {
+	const { data: session, status } = useSession();
 	const [showDropdown, setShowdropdown] = useState(false);
 	const { username } = props;
 	const handleDropdownClick = () => {
 		setShowdropdown(!showDropdown);
+	};
+	const handleLogout = async (e) => {
+		e.preventDefault();
+		await signOut();
 	};
 
 	return (
@@ -35,34 +41,45 @@ const Navbar = (props) => {
 					</li>
 				</ul>
 				<nav className={classes.navContainer}>
-					<div>
-						<button
-							className={classes.usernameBtn}
-							onClick={handleDropdownClick}
-						>
-							<p className={classes.username}>{username}</p>
-							<Image
-								src="/static/expand_more.svg"
-								width={24}
-								height={24}
-								alt="drop down arrow"
-							/>
-							{/* ! expand moore icon  */}
-						</button>
-						<div className={classes.navDropdown}>
-							{showDropdown && (
-								<div>
-									<Link
-										href="/login"
-										className={classes.linkName}
-									>
-										Sign Out
-									</Link>
-									<div className={classes.lineWrapper}></div>
-								</div>
-							)}
+					{status === 'unauthenticated' && (
+						<>
+							<Link href="/login">Login</Link>
+							<Link href="/register">Register</Link>{' '}
+						</>
+					)}
+					{session && status === 'authenticated' && (
+						<div>
+							<button
+								className={classes.usernameBtn}
+								onClick={handleDropdownClick}
+							>
+								<p className={classes.username}>{username}</p>
+								<Image
+									src="/static/expand_more.svg"
+									width={24}
+									height={24}
+									alt="drop down arrow"
+								/>
+								{/* ! expand moore icon  */}
+							</button>
+							<div className={classes.navDropdown}>
+								{showDropdown && (
+									<div>
+										<Link
+											href="/login"
+											className={classes.linkName}
+											onClick={handleLogout}
+										>
+											Sign Out
+										</Link>
+										<div
+											className={classes.lineWrapper}
+										></div>
+									</div>
+								)}
+							</div>
 						</div>
-					</div>
+					)}
 				</nav>
 			</div>
 		</div>

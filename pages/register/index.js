@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic-client';
 
+import Navbar from '@/components/navbar/Navbar';
 import classes from './Register.module.css';
 
 const RegisterPage = () => {
@@ -52,10 +53,11 @@ const RegisterPage = () => {
 	return (
 		<div className={classes.container}>
 			<Head>
-				<title>Netflix | Sign In </title>
+				<title>Netflix | Register </title>
 			</Head>
 			<header className={classes.header}>
-				<div className={classes.headerWrapper}>
+				<Navbar />
+				{/* <div className={classes.headerWrapper}>
 					<Link className={classes.logoLink} href="/">
 						<div className={classes.logoWrapper}>
 							<Image
@@ -66,7 +68,7 @@ const RegisterPage = () => {
 							/>
 						</div>
 					</Link>
-				</div>
+				</div> */}
 			</header>
 			<main className={classes.main}>
 				<div className={classes.mainWrapper}>
@@ -100,7 +102,7 @@ const RegisterPage = () => {
 						)}
 					</div>
 					<button onClick={handleClick} className={classes.loginBtn}>
-						Reggister
+						Register
 					</button>
 				</div>
 			</main>
