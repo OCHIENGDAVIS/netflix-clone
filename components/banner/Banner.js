@@ -1,11 +1,14 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import classes from './Banner.module.css';
 
 const Banner = (props) => {
-	const { title, subTitle, imgUrl } = props;
+	const { title, subTitle, imgUrl, videoId } = props;
+	const router = useRouter();
 	const handlePlay = () => {
 		console.log('handle play');
+		router.push(`/video/${videoId}`);
 	};
 	return (
 		<div className={classes.container}>

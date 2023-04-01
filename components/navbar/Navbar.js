@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
 
 import Link from 'next/link';
@@ -7,15 +8,16 @@ import Image from 'next/image';
 import classes from './Navbar.module.css';
 
 const Navbar = (props) => {
+	const router = useRouter();
 	const { data: session, status } = useSession();
 	const [showDropdown, setShowdropdown] = useState(false);
-	const { username } = props;
 	const handleDropdownClick = () => {
 		setShowdropdown(!showDropdown);
 	};
 	const handleLogout = async (e) => {
 		e.preventDefault();
 		await signOut();
+		router.push('/');
 	};
 
 	return (
@@ -34,7 +36,7 @@ const Navbar = (props) => {
 
 				<ul className={classes.navItems}>
 					<li className={classes.navItem}>
-						<Link href="/home">Home</Link>
+						<Link href="/">Home</Link>
 					</li>
 					<li className={classes.navItem}>
 						<Link href="/mylist">Mylist</Link>
@@ -53,7 +55,9 @@ const Navbar = (props) => {
 								className={classes.usernameBtn}
 								onClick={handleDropdownClick}
 							>
-								<p className={classes.username}>{username}</p>
+								<p className={classes.username}>
+									{session.user.email}
+								</p>
 								<Image
 									src="/static/expand_more.svg"
 									width={24}

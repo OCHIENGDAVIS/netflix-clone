@@ -9,7 +9,7 @@ import { getVideos } from '@/lib/vodeos';
 
 import styles from '@/styles/Home.module.css';
 
-export default function Home({ videos }) {
+export default function Home({ disneyVideos, travelVideos, popularVideos }) {
 	return (
 		<>
 			<Head>
@@ -29,20 +29,35 @@ export default function Home({ videos }) {
 					title="Margin"
 					subTitle="Business"
 					imgUrl="/static/clifford.webp"
+					videoId="4zH5iYM4wJo"
 				/>
 				<div className={styles.sectionWrapper}>
-					<SectionCards title="Disney" videos={videos} />
+					<SectionCards title="Disney" videos={disneyVideos} />
+				</div>
+				<div className={styles.sectionWrapper}>
+					<SectionCards title="Travel" videos={travelVideos} />
+				</div>
+				<div className={styles.sectionWrapper}>
+					<SectionCards
+						title="Popular Videos"
+						videos={popularVideos}
+					/>
 				</div>
 			</main>
 		</>
 	);
 }
 
-export async function getServerSideProps(context) {
-	const videos = await getVideos();
+export async function getServerSideProps() {
+	const disneyVideos = await getVideos('disney');
+	const travelVideos = await getVideos('travel');
+	const popularVideos = await getVideos('popular movies');
+
 	return {
 		props: {
-			videos,
+			disneyVideos,
+			travelVideos,
+			popularVideos,
 		},
 	};
 }

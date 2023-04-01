@@ -51,7 +51,7 @@ const LoginPage = () => {
 				return;
 			}
 			// Set some auth state with context or redux  and use it to change what we see
-			router.push('/profile');
+			router.push('/');
 		} catch (error) {
 			console.log(error);
 		}
