@@ -2,17 +2,20 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import Modal from 'react-modal';
+import { useSession, getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
 
 import Navbar from '@/components/navbar/Navbar';
 import classes from './VideoDetail.module.css';
 import { getVideo } from '@/lib/vodeos';
+import video from '@/data/video.json';
+import { startExecuteInsertStats } from '@/lib/db/hasura';
 
 Modal.setAppElement('#__next');
 
 export const getStaticProps = async (ctx) => {
 	const { params } = ctx;
 	const { videoId } = params;
-	const video = await getVideo(videoId);
 	return {
 		props: {
 			video,
@@ -38,6 +41,9 @@ const VideoDetailPage = ({ video }) => {
 	const { videoId } = router.query;
 	const { title, description, publishedTime, channelTitle, viewCount } =
 		video;
+	const { data: session, status } = useSession();
+	console.log({ session, status });
+
 	return (
 		<div>
 			<Navbar />
