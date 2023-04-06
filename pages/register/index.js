@@ -35,7 +35,7 @@ const RegisterPage = () => {
 				const didToken = await magic.auth.loginWithMagicLink({
 					email,
 				});
-				console.log({ didToken });
+
 				router.push('/');
 			}
 		} catch (error) {

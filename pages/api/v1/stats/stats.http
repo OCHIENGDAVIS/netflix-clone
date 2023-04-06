@@ -1,0 +1,25 @@
+# ### stats api 
+POST http://localhost:3000/api/v1/stats HTTP/1.1
+Content-Type: : application/json
+
+{
+
+}
+### get token
+POST http://localhost:3000/api/v1/stats HTTP/1.1
+Content-Type: application/json
+Cookie: next-auth.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..wIyuboRQLKdlJZrs.hYcT8F2xOW0NBSyZUCnPxeiXmBeaBVbXiN3viva_Ke5jIlAHy8VWL1jcLAqT3aTLHp0CQcqO5q3DHg7pTS7TghWsAsHr01xefjDZqmbNAJYOVsWiW2OPhIW8qX3ZM2RzirG_Cgo33zFB5XIO63x6VaPjapE8GC4-ZCtJMjbxp2Mqt9aUtZgJ_Cc3ZR8S3Mg1q_2V.B7F_sRuYQgqYXCic78V72g
+
+{
+    "videoId": "4zH5iYM4wJo" , 
+    "watched": true, 
+    "favourited": 1
+}
+
+### get a state 
+GET http://localhost:3000/api/v1/stats?videoId=4zH5iYM4wJo HTTP/1.1
+
+
+
+
+

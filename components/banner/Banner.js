@@ -7,7 +7,6 @@ const Banner = (props) => {
 	const { title, subTitle, imgUrl, videoId } = props;
 	const router = useRouter();
 	const handlePlay = () => {
-		console.log('handle play');
 		router.push(`/video/${videoId}`);
 	};
 	return (

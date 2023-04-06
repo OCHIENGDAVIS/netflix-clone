@@ -70,7 +70,7 @@ const Navbar = (props) => {
 								{showDropdown && (
 									<div>
 										<Link
-											href="/login"
+											href="/logout"
 											className={classes.linkName}
 											onClick={handleLogout}
 										>

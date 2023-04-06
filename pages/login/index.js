@@ -23,7 +23,7 @@ const LoginPage = () => {
 		// this will always resolves even is there is backend error
 		const res = await signIn('credentials', {
 			redirect: false, // ensure you are not redirected when authorization fails
-			email, //will be received i the authorize function
+			email, //will be received in the authorize function
 			password, // will also be received in the authorize function
 		});
 		return res;

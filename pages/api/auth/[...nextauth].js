@@ -6,17 +6,10 @@ import UserModel from '@/lib/db/user.model';
 import { dbConnect } from '@/lib/db';
 // import callbacks from './callbacks';
 
-const options = {
+export const options = {
 	// ensures that the JWT token is created and stored for you
 	session: {
-		jwt: true,
-	},
-	callbacks: {
-		async session({ session, token, user }) {
-			console.log({ session, user, token });
-			session.user.id = token.id;
-			return session;
-		},
+		strategy: 'jwt',
 	},
 	providers: [
 		credentialsProvider({
@@ -39,7 +32,7 @@ const options = {
 					// return an object here tells next-auth that user verification was successfull
 
 					// return { email: user.email, id: user.id };
-					return { email: user.email, id: user.id };
+					return user;
 				} catch (error) {
 				} finally {
 					mongoose.connection.close();
