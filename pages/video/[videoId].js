@@ -40,7 +40,6 @@ export const getStaticPaths = () => {
 
 const VideoDetailPage = ({ video }) => {
 	const router = useRouter();
-	const { data: session } = useSession();
 
 	const { videoId } = router.query;
 	const { title, description, publishedTime, channelTitle, viewCount } =
@@ -52,11 +51,13 @@ const VideoDetailPage = ({ video }) => {
 			const res = await fetch(`/api/v1/stats?videoId=${videoId}`);
 			const data = await res.json();
 			const { stats } = data;
-			console.log({ favourited });
-			if (favourited === 1) {
-				setToggleLike(true);
-			} else if (favourited === 0) {
-				setToggleDislike(true);
+			if (stats) {
+				const { favourited } = stats;
+				if (favourited === 1) {
+					setToggleLike(true);
+				} else if (favourited === 0) {
+					setToggleDislike(true);
+				}
 			}
 		};
 		getStats();
@@ -77,7 +78,6 @@ const VideoDetailPage = ({ video }) => {
 			},
 		});
 		const data = await res.json();
-		console.log(data);
 	};
 	const handleToggleLike = async () => {
 		setToggleLike(!toggleLike);

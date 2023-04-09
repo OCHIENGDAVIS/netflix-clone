@@ -28,7 +28,7 @@ const handler = async (req, res) => {
 							userId: email,
 							videoId,
 							watched,
-							favourited,
+							favourited: null,
 						});
 						await newStats.save();
 						return res.status(StatusCodes.OK).json({

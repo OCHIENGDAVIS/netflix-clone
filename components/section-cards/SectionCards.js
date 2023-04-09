@@ -14,7 +14,7 @@ const SectionCards = (props) => {
 							key={id}
 							id={id}
 							title={title}
-							size="large"
+							size="small"
 							imgUrl={imgUrl}
 						/>
 					))}

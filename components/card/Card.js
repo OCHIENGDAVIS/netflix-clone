@@ -8,8 +8,7 @@ import cls from 'classnames';
 
 import styles from './Card.module.css';
 
-const Card = (props) => {
-	const { size, imgUrl, id } = props;
+const Card = ({ id, title, imgUrl, size }) => {
 	const [imgSrc, setImgSrc] = useState(imgUrl);
 	const classMap = {
 		large: styles.lgItem,
